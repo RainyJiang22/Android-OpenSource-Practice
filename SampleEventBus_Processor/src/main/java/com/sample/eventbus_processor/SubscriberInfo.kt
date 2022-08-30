@@ -1,4 +1,4 @@
-package com.sample.eventbus.api
+package com.sample.eventbus_processor
 
 /**
  * @author jiangshiyu

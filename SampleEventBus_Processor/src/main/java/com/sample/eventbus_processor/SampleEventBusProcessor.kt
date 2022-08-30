@@ -1,32 +1,58 @@
-## 关于SampleEventBus(手写简单的EventBus)
+package com.sample.eventbus_processor
 
-> 核心重点就在于其通过**注解处理器**生成辅助文件这个过程
+import com.squareup.javapoet.ClassName
+import com.squareup.javapoet.CodeBlock
+import com.squareup.javapoet.FieldSpec
+import com.squareup.javapoet.JavaFile
+import com.squareup.javapoet.MethodSpec
+import com.squareup.javapoet.ParameterizedTypeName
+import com.squareup.javapoet.TypeName
+import com.squareup.javapoet.TypeSpec
+import com.squareup.javapoet.WildcardTypeName
+import javax.annotation.processing.AbstractProcessor
+import javax.annotation.processing.Messager
+import javax.annotation.processing.ProcessingEnvironment
+import javax.annotation.processing.RoundEnvironment
+import javax.lang.model.element.ExecutableElement
+import javax.lang.model.element.Modifier
+import javax.lang.model.element.TypeElement
+import javax.lang.model.util.Elements
+import javax.tools.Diagnostic
 
-### 提供注解处理器data
+/**
+ * @author jiangshiyu
+ * @date 2022/8/26
+ */
+class SampleEventBusProcessor : AbstractProcessor() {
 
-- 提供一个注解对监听方法进行标记
+    companion object {
 
-```kotlin
-@MustBeDocumented
-@kotlin.annotation.Retention(AnnotationRetention.SOURCE)
-@Target(AnnotationTarget.FUNCTION)
-annotation class Event
-```
+        private const val PACKAGE_NAME = "com.sample.eventbus"
 
-- 在编译阶段需要预先把所有监听方法抽象保存起来，所以就需要定义两个 JavaBean 来作为承载体
-```kotlin
-data class EventMethodInfo(val methodName: String, val eventType: Class<*>)
-data class SubscriberInfo(
-    val subscriberClass: Class<*>,
-    val methodList: List<EventMethodInfo>
-)
-```
+        private const val CLASS_NAME = "EventBusInject"
 
-### 编写注解处理器实现SampleEventBusProcessor
+        private const val DOC = "这是自动生成的代码"
+    }
 
-- 通过`collectSubscribers`拿到所有监听方法，保存到`methodsByClass`中，对方法进行签名校验
-```kotlin
- /**
+    private lateinit var elementUtils: Elements
+
+    private val methodsByClass = LinkedHashMap<TypeElement, MutableList<ExecutableElement>>()
+
+    override fun init(processingEnv: ProcessingEnvironment) {
+        super.init(processingEnv)
+        elementUtils = processingEnv.elementUtils
+    }
+
+    private fun getClassAny(): TypeName {
+        return ParameterizedTypeName.get(
+            ClassName.get(Class::class.java),
+            WildcardTypeName.subtypeOf(Any::class.java)
+        )
+    }
+
+
+    /**
+     * 通过collect拿到所有监听方法，保存到methodsByClass中，对方法进行签名校验
      * fixme 只能是实例方法，且必须是public的，最多且至少包含一个入参函数
      */
     private fun collectSubscribers(
@@ -88,11 +114,9 @@ data class SubscriberInfo(
         }
         return true
     }
-```
 
-- 生成 `subscriberIndex` 这个静态常量，以及对应的静态方法块、`putIndex` 方法
-```kotlin
- //生成subscriberIndex这个静态常量
+
+    //生成subscriberIndex这个静态常量
     private fun generateSubscriberField(): FieldSpec {
         val subscriberIndex = ParameterizedTypeName.get(
             ClassName.get(Map::class.java),
@@ -159,11 +183,12 @@ data class SubscriberInfo(
             )
             .build()
     }
-```
 
-- 接着生成 `getSubscriberInfo` 这个公开方法，用于运行时调用
-```kotlin
-return MethodSpec.methodBuilder("getSubscriberInfo")
+    /**
+     * 生成 `getSubscriberInfo` 这个公开方法，用于运行时调用
+     */
+    private fun generateMethodGetSubscriberInfo(): MethodSpec {
+        return MethodSpec.methodBuilder("getSubscriberInfo")
             .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
             .returns(SubscriberInfo::class.java)
             .addParameter(getClassAny(), "subscribeClass")
@@ -172,9 +197,37 @@ return MethodSpec.methodBuilder("getSubscriberInfo")
                     .build()
             )
             .build()
-```
+    }
 
-- 在 `process` 方法中完成 EventBusInject 整个类文件的构建了
-```kotlin
+    /**
+     * 完成EventInject构建
+     */
+    override fun process(
+        set: MutableSet<out TypeElement>,
+        roundEnvironment: RoundEnvironment
+    ): Boolean {
 
-```
+        val messager = processingEnv.messager
+        collectSubscribers(set, roundEnvironment, messager)
+        if (methodsByClass.isEmpty()) {
+            messager.printMessage(Diagnostic.Kind.WARNING, "No @Event annotations found")
+        } else {
+            val typeSpec = TypeSpec.classBuilder(CLASS_NAME)
+                .addModifiers(Modifier.PUBLIC)
+                .addJavadoc(DOC)
+                .addField(generateSubscriberField())
+                .addMethod(generateMethodPutIndex())
+                .addMethod(generateMethodGetSubscriberInfo())
+
+            generateInitializerBlock(typeSpec)
+            val javaFile = JavaFile.builder(PACKAGE_NAME, typeSpec.build())
+                .build()
+            try {
+                javaFile.writeTo(processingEnv.filer)
+            } catch (e: Throwable) {
+                e.printStackTrace()
+            }
+        }
+        return true
+    }
+}

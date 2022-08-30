@@ -5,4 +5,6 @@ package com.sample.eventbus.api
  * @date 2022/8/26
  */
 object SampleEventBus {
+
+
 }
