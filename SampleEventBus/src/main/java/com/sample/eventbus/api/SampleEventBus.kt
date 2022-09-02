@@ -10,7 +10,7 @@ object SampleEventBus {
 
     private val subscriptions = mutableSetOf<Any>()
 
-    private const val PACKAGE_NAME = "github.leavesc.easyeventbus"
+    private const val PACKAGE_NAME = "com.rainy.android_opensource_practice"
 
     private const val CLASS_NAME = "EventBusInject"
 
