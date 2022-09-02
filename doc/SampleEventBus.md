@@ -176,5 +176,32 @@ return MethodSpec.methodBuilder("getSubscriberInfo")
 
 - 在 `process` 方法中完成 EventBusInject 整个类文件的构建了
 ```kotlin
+override fun process(
+        set: MutableSet<out TypeElement>,
+        roundEnvironment: RoundEnvironment
+    ): Boolean {
 
+        val messager = processingEnv.messager
+        collectSubscribers(set, roundEnvironment, messager)
+        if (methodsByClass.isEmpty()) {
+            messager.printMessage(Diagnostic.Kind.WARNING, "No @Event annotations found")
+        } else {
+            val typeSpec = TypeSpec.classBuilder(CLASS_NAME)
+                .addModifiers(Modifier.PUBLIC)
+                .addJavadoc(DOC)
+                .addField(generateSubscriberField())
+                .addMethod(generateMethodPutIndex())
+                .addMethod(generateMethodGetSubscriberInfo())
+
+            generateInitializerBlock(typeSpec)
+            val javaFile = JavaFile.builder(PACKAGE_NAME, typeSpec.build())
+                .build()
+            try {
+                javaFile.writeTo(processingEnv.filer)
+            } catch (e: Throwable) {
+                e.printStackTrace()
+            }
+        }
+        return true
+    }
 ```
