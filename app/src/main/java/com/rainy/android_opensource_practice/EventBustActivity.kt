@@ -1,7 +1,6 @@
 package com.rainy.android_opensource_practice
 
 import android.os.Bundle
-import android.widget.Toast
 import com.blankj.utilcode.util.ToastUtils
 import com.rainy.android_opensource_practice.databinding.ActivityEventBusBinding
 import com.sample.eventbus.api.SampleEventBus

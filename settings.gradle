@@ -18,3 +18,4 @@ rootProject.name = "Android-OpenSource-Practice"
 include ':app'
 include ':SampleEventBus'
 include ':SampleEventBus_Processor'
+include ':RxLiveDataHttp'
