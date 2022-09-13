@@ -7,7 +7,6 @@ import retrofit2.Call
 import retrofit2.CallAdapter
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Response.error
 import java.lang.reflect.Type
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -16,6 +15,7 @@ import java.util.concurrent.atomic.AtomicBoolean
  * @date 2022/9/9
  */
 class LiveDataCallAdapter<R>(private val responseType: Type) : CallAdapter<R, LiveData<R>> {
+
     override fun responseType(): Type {
         return responseType
     }
@@ -27,12 +27,12 @@ class LiveDataCallAdapter<R>(private val responseType: Type) : CallAdapter<R, Li
 
             override fun onActive() {
                 //避免重复请求
-                if (started.compareAndSet(false,true)) {
+                if (started.compareAndSet(false, true)) {
                     call.enqueue(object : Callback<R> {
                         override fun onResponse(call: Call<R>, response: Response<R>) {
                             val body = response.body() as HttpWrapBean<*>
                             if (body.isSuccess) {
-                                //成功状态，直接返回body
+                                //成功状态，直接返回 body
                                 postValue(response.body())
                             } else {
                                 //失败状态，返回格式化好的 HttpWrapBean 对象
@@ -41,12 +41,14 @@ class LiveDataCallAdapter<R>(private val responseType: Type) : CallAdapter<R, Li
                         }
 
                         override fun onFailure(call: Call<R>, t: Throwable) {
+                            //网络请求失败，根据 Throwable 类型来构建 HttpWrapBean
+                            postValue(HttpWrapBean.error(t) as R)
                         }
-
                     })
                 }
             }
 
         }
     }
+
 }

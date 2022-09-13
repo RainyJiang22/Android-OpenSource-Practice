@@ -4,15 +4,12 @@ import com.rainy.rxlivedatahttp.bean.HttpWrapBean
 import java.io.IOException
 import java.net.SocketException
 
-/**
- * @author jiangshiyu
- * @date 2022/9/9
- */
 sealed class BaseHttpException(
     val errorCode: Int,
     val errorMessage: String,
     val realException: Throwable?
-) {
+) : Exception(errorMessage) {
+
     companion object {
 
         const val CODE_UNKNOWN = -1024
@@ -21,11 +18,11 @@ sealed class BaseHttpException(
 
         fun generateException(throwable: Throwable?): BaseHttpException {
             return when (throwable) {
-                is SocketException, is IOException -> {
-                    NetworkBadException("网络请求失败", throwable)
-                }
                 is BaseHttpException -> {
                     throwable
+                }
+                is SocketException, is IOException -> {
+                    NetworkBadException("网络请求失败", throwable)
                 }
                 else -> {
                     UnknownException("未知错误", throwable)
@@ -34,7 +31,6 @@ sealed class BaseHttpException(
         }
 
     }
-
 
 }
 

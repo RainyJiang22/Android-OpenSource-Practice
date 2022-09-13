@@ -10,7 +10,7 @@ import com.rainy.rxlivedatahttp.exception.ServerCodeNoSuccessException
 data class HttpWrapBean<T>(val status: Int, val msg: String, val data: T) {
 
     companion object {
-        fun error(throwable: Throwable):HttpWrapBean<*> {
+        fun error(throwable: Throwable?):HttpWrapBean<*> {
             val exception = BaseHttpException.generateException(throwable)
             return HttpWrapBean(exception.errorCode, exception.errorMessage, null)
         }
