@@ -60,6 +60,7 @@ afterEvaluate {
                 from components.release
                 groupId = 'com.github.RainyJiang22'
                 artifactId = 'monitor'
+                version = '1.0.0'
             }
         }
     }
