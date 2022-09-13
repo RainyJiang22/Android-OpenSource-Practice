@@ -8,9 +8,12 @@
         <activity
             android:name=".ui.MonitorActivity"
             android:exported="false"
-            android:launchMode="singleTask">
+            android:launchMode="singleTask" />
 
-        </activity>
+        <activity
+            android:name=".ui.MonitorDetailsActivity"
+            android:exported="false"
+            android:launchMode="singleTask" />
 
         <service android:name=".service.ClearMonitorService" />
 
