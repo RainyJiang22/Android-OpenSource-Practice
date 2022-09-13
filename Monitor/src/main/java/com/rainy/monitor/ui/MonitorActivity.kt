@@ -46,7 +46,7 @@ class MonitorActivity : AppCompatActivity(R.layout.activity_monitor) {
 
         monitorAdapter.clickListener = object : MonitorAdapter.OnClickListener {
             override fun onClick(position: Int, model: HttpInformation) {
-
+                MonitorDetailsActivity.navTo(this@MonitorActivity, model.id)
             }
         }
     }
