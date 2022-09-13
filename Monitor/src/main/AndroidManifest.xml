@@ -5,11 +5,14 @@
 
     <application>
 
-        <activity android:name=".ui.MonitorActivity"
+        <activity
+            android:name=".ui.MonitorActivity"
             android:exported="false"
             android:launchMode="singleTask">
 
         </activity>
+
+        <service android:name=".service.ClearMonitorService" />
 
 
     </application>

@@ -2,6 +2,7 @@ package com.rainy.monitor.utils
 
 import com.rainy.monitor.data.HttpHeader
 import com.rainy.monitor.db.HttpInformation
+import com.rainy.monitor.holder.SerializableHolder
 import org.w3c.dom.Document
 import org.xml.sax.InputSource
 import org.xml.sax.SAXParseException

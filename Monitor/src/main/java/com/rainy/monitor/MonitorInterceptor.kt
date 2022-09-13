@@ -2,7 +2,6 @@ package com.rainy.monitor
 
 import android.app.Application
 import android.net.Uri
-import androidx.constraintlayout.solver.state.State
 import com.rainy.monitor.db.HttpInformation
 import com.rainy.monitor.db.MonitorHttpInformationDataBase
 import com.rainy.monitor.holder.ContextHolder
@@ -154,7 +153,7 @@ class MonitorInterceptor(context: Application) : Interceptor {
     }
 
     private fun showNotification(httpInformation: HttpInformation) {
-        //todo 弹出展示Notification
-
+        //弹出展示Notification
+        showNotification(httpInformation)
     }
 }

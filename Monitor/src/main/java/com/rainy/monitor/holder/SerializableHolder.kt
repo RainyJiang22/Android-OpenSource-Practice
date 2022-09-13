@@ -1,4 +1,4 @@
-package com.rainy.monitor.utils
+package com.rainy.monitor.holder
 
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.GsonBuilder

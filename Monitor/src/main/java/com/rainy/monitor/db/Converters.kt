@@ -2,7 +2,7 @@ package com.rainy.monitor.db
 
 import androidx.room.TypeConverter
 import com.rainy.monitor.data.HttpHeader
-import com.rainy.monitor.utils.SerializableHolder
+import com.rainy.monitor.holder.SerializableHolder
 import java.util.*
 
 /**
