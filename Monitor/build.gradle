@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'kotlin-android'
+    id 'maven-publish'
 }
 
 android {
@@ -50,4 +51,16 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation "com.squareup.okhttp3:okhttp:4.9.3"
 
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = 'com.github.RainyJiang22'
+                artifactId = 'monitor'
+            }
+        }
+    }
 }
