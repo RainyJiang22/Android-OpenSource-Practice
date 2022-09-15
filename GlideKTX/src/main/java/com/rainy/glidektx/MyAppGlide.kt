@@ -8,8 +8,11 @@ import com.bumptech.glide.annotation.GlideModule
 import com.bumptech.glide.load.DecodeFormat
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.cache.DiskLruCacheFactory
+import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.module.AppGlideModule
 import com.bumptech.glide.request.RequestOptions
+import okhttp3.OkHttpClient
+import java.io.InputStream
 
 /**
  * @author jiangshiyu
@@ -54,5 +57,11 @@ class MyAppGlide : AppGlideModule() {
     }
 
     override fun registerComponents(context: Context, glide: Glide, registry: Registry) {
+        //注册okhttpUrlLoader
+        registry.replace(
+            GlideUrl::class.java,
+            InputStream::class.java,
+            OkHttpUrlLoader.Factory(OkHttpClient())
+        )
     }
 }
