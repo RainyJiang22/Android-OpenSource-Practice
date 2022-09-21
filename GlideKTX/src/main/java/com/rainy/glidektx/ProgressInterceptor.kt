@@ -12,7 +12,7 @@ class ProgressInterceptor : Interceptor {
         val request = chain.request()
         val originalResponse = chain.proceed(request)
 
-        //将progressResponseBody作为代理
+        //将progressResponseBody作为代理类
         val url = request.url().toString()
         return originalResponse.newBuilder().body(
             ProgressResponseBody(url,originalResponse.body())
