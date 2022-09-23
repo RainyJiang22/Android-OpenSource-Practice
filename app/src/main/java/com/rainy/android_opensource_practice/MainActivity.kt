@@ -1,5 +1,6 @@
 package com.rainy.android_opensource_practice
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import com.rainy.android_opensource_practice.databinding.ActivityMainBinding
@@ -16,10 +17,9 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
 
 
-
+        this.post(HelloBean("this is bean world"), isStick = false)
         bind.world.setOnClickListener {
-            this.post(HelloBean("this is bean world"), isStick = false)
-//            startActivity(Intent(this, EventBustActivity::class.java))
+            startActivity(Intent(this, EventBustActivity::class.java))
         }
 
         this.subscribeEvent(HelloBean::class.java, SubscribeEnv.MAIN) {
