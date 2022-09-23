@@ -1,8 +1,11 @@
 package com.rainy.android_opensource_practice
 
 import android.os.Bundle
+import android.util.Log
 import com.blankj.utilcode.util.ToastUtils
 import com.rainy.android_opensource_practice.databinding.ActivityEventBusBinding
+import com.rainy.easybus.SubscribeEnv
+import com.rainy.easybus.extention.subscribeEvent
 import com.sample.eventbus.api.SampleEventBus
 import com.sample.eventbus_processor.Event
 
@@ -14,45 +17,32 @@ class EventBustActivity : BaseActivity() {
 
     override val bind by getBind<ActivityEventBusBinding>()
 
-    private val eventTest = SampleEventBusTest()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        SampleEventBus.register(this)
-        eventTest.register()
+
+
+        this.subscribeEvent(String::class.java) {
+            Log.d("EasyBus", "this post data is $it")
+            bind.testText.text = it
+        }
 
         bind.btnPostBean.setOnClickListener {
-            SampleEventBus.post(HelloBean("hi"))
+            this.subscribeEvent(String::class.java) {
+                Log.d("EasyBus", "this post data is $it")
+                bind.testText.text = it
+            }
         }
 
         bind.btnPostString.setOnClickListener {
-            SampleEventBus.post("Hello World")
+            this.subscribeEvent(String::class.java) {
+                Log.d("EasyBus", "this post data is $it")
+                bind.testText.text = it
+            }
         }
     }
 
 
 }
 
-class SampleEventBusTest {
-
-    @Event
-    fun stringFun(msg: String) {
-        ToastUtils.showShort("$msg ${this.javaClass.simpleName}")
-    }
-
-    @Event
-    fun benFun(msg: HelloBean) {
-        ToastUtils.showShort("${msg.data} ${this.javaClass.simpleName}")
-    }
-
-    fun register() {
-        SampleEventBus.register(this)
-    }
-
-    fun unregister() {
-        SampleEventBus.unregister(this)
-    }
-
-}
 
 data class HelloBean(val data: String)
