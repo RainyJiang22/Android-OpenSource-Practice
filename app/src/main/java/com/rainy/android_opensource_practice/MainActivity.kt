@@ -16,7 +16,6 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
         this.post(HelloBean("this is bean world"), isStick = false)
         bind.world.setOnClickListener {
             startActivity(Intent(this, EventBustActivity::class.java))

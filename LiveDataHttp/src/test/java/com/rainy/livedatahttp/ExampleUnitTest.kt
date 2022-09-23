@@ -1,4 +1,4 @@
-package com.rainy.rxlivedatahttp
+package com.rainy.livedatahttp
 
 import org.junit.Test
 
