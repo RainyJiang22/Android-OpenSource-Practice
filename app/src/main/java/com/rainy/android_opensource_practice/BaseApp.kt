@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStore
 import androidx.lifecycle.ViewModelStoreOwner
+import com.rainy.easybus.EventBusInitializer
 
 /**
  * @author jiangshiyu
@@ -26,6 +27,7 @@ class BaseApp : Application(), ViewModelStoreOwner {
 
     override fun onCreate() {
         super.onCreate()
+        EventBusInitializer.init(this)
         mAppViewModelStore = ViewModelStore()
         eventViewModelInstance = getAppViewModelProvider().get(EventViewModel::class.java)
     }

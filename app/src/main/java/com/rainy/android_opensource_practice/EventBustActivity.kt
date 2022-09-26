@@ -2,14 +2,8 @@ package com.rainy.android_opensource_practice
 
 import android.os.Bundle
 import android.util.Log
-import androidx.lifecycle.Observer
-import com.blankj.utilcode.util.ToastUtils
 import com.rainy.android_opensource_practice.databinding.ActivityEventBusBinding
-import com.rainy.easybus.SubscribeEnv
-import com.rainy.easybus.extention.post
-import com.rainy.easybus.extention.subscribeEvent
-import com.sample.eventbus.api.SampleEventBus
-import com.sample.eventbus_processor.Event
+import com.rainy.easybus.extention.postEvent
 import me.hgj.jetpackmvvm.base.viewmodel.BaseViewModel
 
 /**
@@ -34,6 +28,10 @@ class EventBustActivity : BaseActivity<BaseViewModel, ActivityEventBusBinding>()
         super.initView(savedInstanceState)
         mViewBind.btnPostString.setOnClickListener {
             eventViewModel.textEvent.value = HelloBean("this is message")
+        }
+
+        mViewBind.btnPostBean.setOnClickListener {
+            postEvent(HelloBean("this is message2"))
         }
     }
 
