@@ -21,14 +21,14 @@ import kotlinx.coroutines.launch
  * @date 2022/9/23
  */
 
-inline fun <reified T> LifecycleOwner.subscribeEvent(
+inline fun <reified T> LifecycleOwner.observeEvent(
     event: Class<T>,
     env: SubscribeEnv = SubscribeEnv.MAIN,
     crossinline dos: (T) -> Unit
 ) = MessageCenter.onEvent(event, dos, this, env)
 
 
-inline fun <reified T> LifecycleOwner.post(
+inline fun <reified T> LifecycleOwner.postEvent(
     event: T,
     isStick: Boolean = false
 ) = MessageCenter.post(event, isStick)
@@ -54,7 +54,7 @@ fun <T> LifecycleOwner.launchWhenStateAtLeast(
 @MainThread
 inline fun <reified T> LifecycleOwner.observeEvent(
     dispatcher: CoroutineDispatcher = Dispatchers.Main.immediate,
-    minActiveState: Lifecycle.State = Lifecycle.State.STARTED,
+    minActiveState: Lifecycle.State = Lifecycle.State.RESUMED,
     isSticky: Boolean = false,
     noinline onReceived: (T) -> Unit
 ): Job {

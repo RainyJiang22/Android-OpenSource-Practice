@@ -9,4 +9,49 @@
 - 足够精简
     - 都是使用扩展函数，非常方便对原有方法的扩展
 - 可实现发送和接收核心功能
-    - MutableSharedFlow实现了flow发送和接收的接口，发送比较简单使用特性即可，接收稍微繁琐点，由于在同一个协程域中，运行是串行的，需要开两个协程域，分别在里面调用collect函数，监听粘性事件与非粘性事件
+  -
+  MutableSharedFlow实现了flow发送和接收的接口，发送比较简单使用特性即可，接收稍微繁琐点，由于在同一个协程域中，运行是串行的，需要开两个协程域，分别在里面调用collect函数，监听粘性事件与非粘性事件
+- 可以支持全局范围的事件,结合生命周期感知
+
+## 初始化
+
+```kotlin
+ EventBusInitializer.init(application)
+```
+
+## 事件发送
+
+- APP全局范围事件
+
+```kotlin
+postEvent(HelloBean("this is message"))
+```
+
+- Activity/Fragment范围内事件
+
+```kotlin
+LifecycleOwner.postEvent(HelloBean("this is bean world"), isStick = false)
+```
+
+## 事件接收
+
+- App全局事件接收
+
+```kotlin
+  observeEvent<HelloBean> {
+    Log.d("EasyBus", "observeEvent is $it")
+    mViewBind.text2.text = it.data
+}
+```
+
+- Activity/Fragment范围事件接收
+
+```kotlin
+   LifecycleOwner.observeEvent(HelloBean::class.java, SubscribeEnv.MAIN) {
+    Log.i(
+        "EasyBus",
+        "main activity receive a message $it current thread ${Thread.currentThread()}"
+    )
+    mViewBind.text2.text = it.data
+}
+```

@@ -15,19 +15,13 @@ class EventBustActivity : BaseActivity<BaseViewModel, ActivityEventBusBinding>()
 
     override fun createObserver() {
         super.createObserver()
-        eventViewModel.textEvent.observeInActivity(
-            this
-        ) {
-            Log.d("EasyBus", "createObserver: $it")
-            mViewBind.testText.text = it.data
-        }
 
     }
 
     override fun initView(savedInstanceState: Bundle?) {
         super.initView(savedInstanceState)
         mViewBind.btnPostString.setOnClickListener {
-            eventViewModel.textEvent.value = HelloBean("this is message")
+            postEvent(HelloBean("this is message1"))
         }
 
         mViewBind.btnPostBean.setOnClickListener {
