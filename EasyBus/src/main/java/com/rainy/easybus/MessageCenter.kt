@@ -1,5 +1,6 @@
 package com.rainy.easybus
 
+import android.security.identity.DocTypeNotSupportedException
 import androidx.lifecycle.LifecycleOwner
 import com.rainy.easybus.extention.setLifeCycle
 import kotlinx.coroutines.CoroutineScope
@@ -32,7 +33,7 @@ object MessageCenter {
         } else {
             stickyEvents.getOrElse(cls) {
                 MutableSharedFlow(1, 1, BufferOverflow.DROP_OLDEST)
-            }.tryEmit(events)
+            }.tryEmit(stickyEvents)
         }
 
     }
