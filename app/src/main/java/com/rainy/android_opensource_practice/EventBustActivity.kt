@@ -2,6 +2,7 @@ package com.rainy.android_opensource_practice
 
 import android.os.Bundle
 import android.util.Log
+import androidx.lifecycle.Observer
 import com.blankj.utilcode.util.ToastUtils
 import com.rainy.android_opensource_practice.databinding.ActivityEventBusBinding
 import com.rainy.easybus.SubscribeEnv
@@ -9,37 +10,32 @@ import com.rainy.easybus.extention.post
 import com.rainy.easybus.extention.subscribeEvent
 import com.sample.eventbus.api.SampleEventBus
 import com.sample.eventbus_processor.Event
+import me.hgj.jetpackmvvm.base.viewmodel.BaseViewModel
 
 /**
  * @author jiangshiyu
  * @date 2022/9/2
  */
-class EventBustActivity : BaseActivity() {
-
-    override val bind by getBind<ActivityEventBusBinding>()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+class EventBustActivity : BaseActivity<BaseViewModel, ActivityEventBusBinding>() {
 
 
-        bind.btnPostBean.setOnClickListener {
-            this.post(HelloBean("2 two bus by bean"))
+    override fun createObserver() {
+        super.createObserver()
+        eventViewModel.textEvent.observeInActivity(
+            this
+        ) {
+            Log.d("EasyBus", "createObserver: $it")
+            mViewBind.testText.text = it.data
         }
 
-        bind.btnPostString.setOnClickListener {
-            this.post("2 two bus by string")
-        }
-
-        this.subscribeEvent(String::class.java) {
-            Log.d("EasyBus", "this post data is $it")
-            bind.testText.text = it
-        }
-
-        this.subscribeEvent(HelloBean::class.java) {
-            bind.testText.text = it.data
-        }
     }
 
+    override fun initView(savedInstanceState: Bundle?) {
+        super.initView(savedInstanceState)
+        mViewBind.btnPostString.setOnClickListener {
+            eventViewModel.textEvent.value = HelloBean("this is message")
+        }
+    }
 
 }
 

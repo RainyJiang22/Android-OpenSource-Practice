@@ -1,4 +1,4 @@
-package com.rainy.easybus
+package com.rainy.android_opensource_practice
 
 import android.app.Application
 import androidx.lifecycle.ViewModelProvider
@@ -7,19 +7,27 @@ import androidx.lifecycle.ViewModelStoreOwner
 
 /**
  * @author jiangshiyu
- * @date 2022/9/23
+ * @date 2022/9/26
  */
-open class EventBusInitializer : ViewModelStoreOwner {
 
-    lateinit var application: Application
+val eventViewModel: EventViewModel by lazy { BaseApp.eventViewModelInstance }
+
+class BaseApp : Application(), ViewModelStoreOwner {
+
 
     private var mFactory: ViewModelProvider.Factory? = null
     private lateinit var mAppViewModelStore: ViewModelStore
 
 
-    //初始化
-    fun init(application: Application) {
-        this.application = application
+    companion object {
+        lateinit var eventViewModelInstance: EventViewModel
+    }
+
+
+    override fun onCreate() {
+        super.onCreate()
+        mAppViewModelStore = ViewModelStore()
+        eventViewModelInstance = getAppViewModelProvider().get(EventViewModel::class.java)
     }
 
     /**
@@ -31,7 +39,7 @@ open class EventBusInitializer : ViewModelStoreOwner {
 
     private fun getAppFactory(): ViewModelProvider.Factory {
         if (mFactory == null) {
-            mFactory = ViewModelProvider.AndroidViewModelFactory.getInstance(this.application)
+            mFactory = ViewModelProvider.AndroidViewModelFactory.getInstance(this)
         }
         return mFactory as ViewModelProvider.Factory
     }
