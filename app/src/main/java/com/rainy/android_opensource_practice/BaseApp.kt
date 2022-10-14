@@ -1,6 +1,7 @@
 package com.rainy.android_opensource_practice
 
 import android.app.Application
+import android.content.Context
 import com.rainy.easybus.EventBusInitializer
 
 /**
@@ -11,9 +12,21 @@ import com.rainy.easybus.EventBusInitializer
 
 class BaseApp : Application() {
 
+
     override fun onCreate() {
         super.onCreate()
+        sContext = this
         EventBusInitializer.init(this)
     }
 
+
+    companion object {
+
+        private var sContext: Context? = null
+
+        @JvmStatic
+        fun getContext(): Context? {
+            return sContext
+        }
+    }
 }
