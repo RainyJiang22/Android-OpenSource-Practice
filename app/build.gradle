@@ -49,4 +49,6 @@ dependencies {
     implementation project(":EasyBus")
     implementation 'com.blankj:utilcodex:1.31.0'
     implementation 'com.github.hegaojian:JetpackMvvm:1.2.7'
+
+    implementation project(":FlowExample")
 }
