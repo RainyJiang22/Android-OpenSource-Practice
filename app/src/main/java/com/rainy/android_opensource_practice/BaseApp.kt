@@ -2,6 +2,7 @@ package com.rainy.android_opensource_practice
 
 import android.app.Application
 import android.content.Context
+import com.rainy.android_opensource_practice.user.AppDatabase
 import com.rainy.easybus.EventBusInitializer
 
 /**
