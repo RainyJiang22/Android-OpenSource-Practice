@@ -10,8 +10,13 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.bitmap_recycle.LruBitmapPool
 import com.bumptech.glide.load.engine.cache.DiskLruCacheFactory
 import com.bumptech.glide.load.engine.cache.LruResourceCache
+import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.module.AppGlideModule
 import com.bumptech.glide.request.RequestOptions
+import com.rainy.glidektx.glide.DispatchingProgressManager
+import com.rainy.glidektx.glide.ProgressResponseBody
+import okhttp3.OkHttpClient
+import java.io.InputStream
 
 /**
  * @author jiangshiyu
@@ -67,6 +72,16 @@ class MyAppGlide : AppGlideModule() {
     }
 
     override fun registerComponents(context: Context, glide: Glide, registry: Registry) {
-
+        val client = OkHttpClient.Builder()
+            .addNetworkInterceptor { chain -> //3
+                val request = chain.request()
+                val response = chain.proceed(request)
+                val listener = DispatchingProgressManager()  //4
+                response.newBuilder()
+                    .body(ProgressResponseBody(request.url(), response.body()!!, listener))  //5
+                    .build()
+            }
+            .build()
+        glide.registry.replace(GlideUrl::class.java, InputStream::class.java, OkHttpUrlLoader.Factory(client)) //6
     }
 }
