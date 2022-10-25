@@ -18,6 +18,11 @@
         android:theme="@style/Theme.AndroidOpenSourcePractice"
         tools:targetApi="31">
 
+            <meta-data
+                android:name="com.rainy.glidektx.MyAppGlide"
+                android:value="AppGlideModule" />
+
+
         <activity
             android:name=".user.UserActivity"
             android:exported="true">

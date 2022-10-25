@@ -46,9 +46,9 @@ internal class ProgressResponseBody constructor(
             object : Handler(Looper.getMainLooper()) {
                 override fun handleMessage(msg: Message) {
                     if (msg.what == CODE_PROGRESS) {
-                        val pair = msg.obj as Pair<String, Int>
+                        val pair = msg.obj as Pair<*, *>
                         val progressListener = progressMap[pair.first]?.get()
-                        progressListener?.update(pair.second)
+                        progressListener?.update(pair.second as Int)
                     }
                 }
             }

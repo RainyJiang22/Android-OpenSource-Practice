@@ -7,12 +7,11 @@ import com.bumptech.glide.Registry
 import com.bumptech.glide.annotation.GlideModule
 import com.bumptech.glide.load.DecodeFormat
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.engine.bitmap_recycle.LruBitmapPool
 import com.bumptech.glide.load.engine.cache.DiskLruCacheFactory
-import com.bumptech.glide.load.model.GlideUrl
+import com.bumptech.glide.load.engine.cache.LruResourceCache
 import com.bumptech.glide.module.AppGlideModule
 import com.bumptech.glide.request.RequestOptions
-import okhttp3.OkHttpClient
-import java.io.InputStream
 
 /**
  * @author jiangshiyu
@@ -38,6 +37,14 @@ class MyAppGlide : AppGlideModule() {
 
     override fun applyOptions(context: Context, builder: GlideBuilder) {
         super.applyOptions(context, builder)
+
+        //设置bitmap对象复用缓存池
+        builder.setBitmapPool(LruBitmapPool(1024 * 1024 * 32))
+
+        //设置内存缓存
+        builder.setMemoryCache(LruResourceCache(1024 * 1024 * 32))
+
+
         builder.setDiskCache(
             //配置磁盘缓存目录和最大缓存
             DiskLruCacheFactory(
@@ -46,10 +53,13 @@ class MyAppGlide : AppGlideModule() {
                 1024 * 1024 * 50
             )
         )
+
+        //可以配置相关图片加载选项
         builder.setDefaultRequestOptions {
             return@setDefaultRequestOptions RequestOptions()
                 .placeholder(android.R.drawable.ic_menu_upload_you_tube)
                 .error(android.R.drawable.ic_menu_call)
+                .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 .format(DecodeFormat.DEFAULT)
                 .encodeQuality(90)
@@ -57,11 +67,6 @@ class MyAppGlide : AppGlideModule() {
     }
 
     override fun registerComponents(context: Context, glide: Glide, registry: Registry) {
-        //注册okhttpUrlLoader
-        registry.replace(
-            GlideUrl::class.java,
-            InputStream::class.java,
-            OkHttpUrlLoader.Factory(OkHttpClient())
-        )
+
     }
 }
