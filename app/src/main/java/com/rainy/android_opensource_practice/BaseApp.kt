@@ -3,6 +3,7 @@ package com.rainy.android_opensource_practice
 import android.app.Application
 import android.content.Context
 import com.rainy.android_opensource_practice.user.AppDatabase
+import com.rainy.easy.datastore.BaseApplication
 import com.rainy.easybus.EventBusInitializer
 
 /**
@@ -11,7 +12,7 @@ import com.rainy.easybus.EventBusInitializer
  */
 
 
-class BaseApp : Application() {
+class BaseApp : BaseApplication() {
 
 
     override fun onCreate() {
