@@ -73,15 +73,15 @@ class MyAppGlide : AppGlideModule() {
 
     override fun registerComponents(context: Context, glide: Glide, registry: Registry) {
         val client = OkHttpClient.Builder()
-            .addNetworkInterceptor { chain -> //3
+            .addNetworkInterceptor { chain ->
                 val request = chain.request()
                 val response = chain.proceed(request)
-                val listener = DispatchingProgressManager()  //4
+                val listener = DispatchingProgressManager()
                 response.newBuilder()
-                    .body(ProgressResponseBody(request.url(), response.body()!!, listener))  //5
+                    .body(ProgressResponseBody(request.url(), response.body()!!, listener))
                     .build()
             }
             .build()
-        glide.registry.replace(GlideUrl::class.java, InputStream::class.java, OkHttpUrlLoader.Factory(client)) //6
+        glide.registry.replace(GlideUrl::class.java, InputStream::class.java, OkHttpUrlLoader.Factory(client))
     }
 }

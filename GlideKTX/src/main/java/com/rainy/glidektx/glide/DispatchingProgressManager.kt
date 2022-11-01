@@ -12,27 +12,33 @@ import okhttp3.HttpUrl
 class DispatchingProgressManager internal constructor() : ResponseProgressListener {
 
     companion object {
-        private val PROGRESSES = HashMap<String?, Long>() //1
-        private val LISTENERS = HashMap<String?, OnProgressBarListener>() //2
 
-        internal fun expect(url: String?, listener: OnProgressBarListener) { //3
+        //显示当前url的进度
+        private val PROGRESSES = HashMap<String?, Long>()
+        //存储UI监听器
+        private val LISTENERS = HashMap<String?, OnProgressBarListener>()
+
+        //将url和进度监听器存入到hashmap中
+        internal fun expect(url: String?, listener: OnProgressBarListener) {
             LISTENERS[url] = listener
         }
 
-        internal fun forget(url: String?) { //4
+        //如果下载完成/下载失败,移除url
+        internal fun forget(url: String?) {
             LISTENERS.remove(url)
             PROGRESSES.remove(url)
         }
     }
 
-    private val handler: Handler = Handler(Looper.getMainLooper()) //5
+    //后台线程通知进度，ui线程处理UI
+    private val handler: Handler = Handler(Looper.getMainLooper())
 
     override fun update(url: HttpUrl, byteRead: Long, contentLength: Long) {
         val key = url.toString()
-        //6
+
+        //如果没有进度监听器，直接显示照片
         val listener = LISTENERS[key] ?: return
         if (contentLength <= byteRead) {
-            //7
             forget(key)
         }
         if (needsDispatch(key, byteRead, contentLength, listener.currentPercentage)) { //8
@@ -49,7 +55,6 @@ class DispatchingProgressManager internal constructor() : ResponseProgressListen
         val currentProgress = (percent / granularity).toLong()
         val lastProgress = PROGRESSES[key]
         return if (lastProgress == null || currentProgress != lastProgress) {
-            //9
             PROGRESSES[key] = currentProgress
             true
         } else {

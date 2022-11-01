@@ -20,12 +20,14 @@ import com.bumptech.glide.request.target.Target
 class GlideImageLoader(
     private val mImageView: ImageView?,
     private val mProgressBar: ProgressBar?
-) { //1
+) {
 
-    fun load(url: String?, options: RequestOptions?) { //2
+
+    //加载图片
+    fun load(url: String?, options: RequestOptions?) {
         if (options == null) return
 
-        onConnecting() //3
+        onConnecting()
 
         DispatchingProgressManager.expect(url, object : OnProgressBarListener { //4
 
@@ -40,10 +42,10 @@ class GlideImageLoader(
             }
         })
 
-        Glide.with(mImageView!!.context) //7
+        Glide.with(mImageView!!.context)
             .load(url)
-            .apply(options) //8
-            .listener(object : RequestListener<Drawable> { //9
+            .apply(options)
+            .listener(object : RequestListener<Drawable> {
                 override fun onLoadFailed(
                     e: GlideException?,
                     model: Any?,
@@ -72,10 +74,12 @@ class GlideImageLoader(
     }
 
 
+    //开始下载
     private fun onConnecting() {
         if (mProgressBar != null) mProgressBar.visibility = View.VISIBLE
     }
 
+    //下载结束
     private fun onFinished() {
         if (mProgressBar != null && mImageView != null) {
             mProgressBar.visibility = View.GONE
