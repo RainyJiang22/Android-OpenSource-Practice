@@ -2,8 +2,6 @@ package com.rainy.android_opensource_practice
 
 import android.app.Application
 import android.content.Context
-import com.rainy.android_opensource_practice.user.AppDatabase
-import com.rainy.easy.datastore.BaseApplication
 import com.rainy.easybus.EventBusInitializer
 
 /**
@@ -12,17 +10,20 @@ import com.rainy.easybus.EventBusInitializer
  */
 
 
-class BaseApp : BaseApplication() {
+class BaseApp : Application() {
 
 
     override fun onCreate() {
         super.onCreate()
         sContext = this
+        instance = this
         EventBusInitializer.init(this)
     }
 
 
     companion object {
+
+        lateinit var instance: BaseApp
 
         private var sContext: Context? = null
 

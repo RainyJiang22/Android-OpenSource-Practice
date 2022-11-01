@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
+    id 'com.google.protobuf'
 }
 
 android {
@@ -67,5 +68,29 @@ dependencies {
         exclude group: 'glide-parent'
     }
 
-    implementation project(":EasyDataStore")
+
+    implementation 'androidx.datastore:datastore-preferences:1.0.0'
+    implementation 'androidx.datastore:datastore-preferences-core:1.0.0'
+
+    //Proto DataStore
+    implementation  'androidx.datastore:datastore-core:1.0.0'
+    implementation  'com.google.protobuf:protobuf-javalite:3.10.0'
+
+}
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:3.10.0"
+    }
+
+    // 为该项目中的 Protobufs 生成 java Protobuf-lite 代码。
+    generateProtoTasks {
+        all().each { task ->
+            task.builtins {
+                java {
+                    option 'lite'
+                }
+            }
+        }
+    }
 }

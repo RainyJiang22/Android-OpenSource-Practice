@@ -29,13 +29,27 @@
         app:layout_constraintTop_toBottomOf="@id/btn_read" />
 
 
+    <Button
+        android:id="@+id/btn_proto_save"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Proto 对象存储"
+        app:layout_constraintTop_toBottomOf="@id/btn_clear" />
+
+    <Button
+        android:id="@+id/btn_proto_read"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Proto 对象读取"
+        app:layout_constraintTop_toBottomOf="@id/btn_proto_save" />
+
     <TextView
         android:id="@+id/tv_result"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_clear" />
+        app:layout_constraintTop_toBottomOf="@id/btn_proto_read" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
