@@ -27,7 +27,7 @@ class BannerViewModel : BaseViewModel() {
                 val data = RetrofitClient.articleApi.getBanner()
                 //发射出去数据
                 emit(data.data)
-            }.flowOn(Dispatchers.IO)
+            }.flowOn(Dispatchers.IO) //转换成IO子线程中进行
                 .catch {
                     it.printStackTrace()
                 }

@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
  * @author jiangshiyu
  * @date 2022/10/17
  */
+//本地事件总线
 object LocalEventBus {
 
     val events = MutableSharedFlow<Event>()
