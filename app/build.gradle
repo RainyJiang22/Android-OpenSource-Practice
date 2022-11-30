@@ -76,6 +76,8 @@ dependencies {
     implementation  'androidx.datastore:datastore-core:1.0.0'
     implementation  'com.google.protobuf:protobuf-javalite:3.10.0'
 
+    implementation 'io.github.lucksiege:pictureselector:v3.10.7'
+
 }
 
 protobuf {
