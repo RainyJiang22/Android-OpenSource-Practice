@@ -80,6 +80,7 @@ abstract class BaseViewModel<UiState : IUIState, UiIntent : IUiIntent> : ViewMod
                 when (baseData.state) {
                     ReqState.SUCCESS -> {
                         sendLoadUiIntent(LoadUiIntent.ShowMainView)
+                        baseData.data?.let { successCallback(it) }
                     }
                     ReqState.ERROR -> {
                         baseData.msg?.let { error(it) }
