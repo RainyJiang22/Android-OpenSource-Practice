@@ -10,7 +10,7 @@ import androidx.viewbinding.ViewBinding
  */
 abstract class BaseMVIActivity<T : ViewBinding> : AppCompatActivity() {
 
-    private lateinit var _binding: T
+    private var _binding: T? = null
 
     protected val binding get() = _binding
 
@@ -18,7 +18,7 @@ abstract class BaseMVIActivity<T : ViewBinding> : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = getViewBinding()
-        setContentView(_binding.root)
+        setContentView(_binding?.root)
 
         initViews()
         initContent()
@@ -29,4 +29,10 @@ abstract class BaseMVIActivity<T : ViewBinding> : AppCompatActivity() {
     abstract fun initViews()
 
     protected abstract fun getViewBinding(): T
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
 }
