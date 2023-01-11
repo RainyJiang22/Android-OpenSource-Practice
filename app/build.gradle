@@ -47,6 +47,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
+    implementation project(":KtRetrofit")
     implementation project(":EasyBus")
     implementation project(":GlideKTX")
     implementation 'com.blankj:utilcodex:1.31.0'
@@ -72,8 +73,8 @@ dependencies {
     implementation 'androidx.datastore:datastore-preferences-core:1.0.0'
 
     //Proto DataStore
-    implementation  'androidx.datastore:datastore-core:1.0.0'
-    implementation  'com.google.protobuf:protobuf-javalite:3.10.0'
+    implementation 'androidx.datastore:datastore-core:1.0.0'
+    implementation 'com.google.protobuf:protobuf-javalite:3.10.0'
 
     implementation 'io.github.lucksiege:pictureselector:v3.10.7'
 

@@ -1,4 +1,4 @@
-package com.sample.eventbus
+package com.rainy.ktretrofit
 
 import org.junit.Test
 
