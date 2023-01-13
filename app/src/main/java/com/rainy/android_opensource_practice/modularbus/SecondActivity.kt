@@ -6,6 +6,7 @@ import androidx.lifecycle.lifecycleScope
 import com.pengxr.modular.eventbus.generated.events.EventDefineOfLoginEvents
 import com.rainy.android_opensource_practice.databinding.ActivitySecondBinding
 import com.rainy.android_opensource_practice.toast
+import com.rainy.modular.eventbus.SingleEvent
 import me.hgj.jetpackmvvm.base.activity.BaseVmVbActivity
 import me.hgj.jetpackmvvm.base.viewmodel.BaseViewModel
 
@@ -16,13 +17,17 @@ import me.hgj.jetpackmvvm.base.viewmodel.BaseViewModel
 class SecondActivity : BaseVmVbActivity<BaseViewModel, ActivitySecondBinding>() {
     override fun createObserver() {
 
-        lifecycleScope.launchWhenResumed {
-            EventDefineOfLoginEvents.login()
-                .observe(this@SecondActivity) { value: UserInfo? ->
-                    Log.d(EventBustTestActivity.TAG, "createObserver: $value")
-                    toast("$value")
-                }
-        }
+//        lifecycleScope.launchWhenResumed {
+//            EventDefineOfLoginEvents.login()
+//                .observe(this@SecondActivity) { value: UserInfo? ->
+//                    Log.d(EventBustTestActivity.TAG, "createObserver: $value")
+//                    toast("$value")
+//                }
+//        }
+//
+//        SingleEvent.observer(this) {
+//            toast("$it")
+//        }
 
     }
 

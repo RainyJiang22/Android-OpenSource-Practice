@@ -6,6 +6,7 @@ import android.util.Log
 import com.pengxr.modular.eventbus.generated.events.EventDefineOfLoginEvents
 import com.rainy.android_opensource_practice.databinding.ActivityModularBusBinding
 import com.rainy.modular.eventbus.LiveDataBus
+import com.rainy.modular.eventbus.SingleEvent
 import me.hgj.jetpackmvvm.base.activity.BaseVmVbActivity
 import me.hgj.jetpackmvvm.base.viewmodel.BaseViewModel
 
@@ -36,9 +37,8 @@ class EventBustTestActivity : BaseVmVbActivity<BaseViewModel, ActivityModularBus
     }
 
     override fun initView(savedInstanceState: Bundle?) {
-        EventDefineOfLoginEvents.login().post(UserInfo("RainyJiang"))
         mViewBind.send.setOnClickListener {
-
+            SingleEvent.post(UserInfo("RainyJiang"))
             startActivity(Intent(this, SecondActivity::class.java))
         }
     }
