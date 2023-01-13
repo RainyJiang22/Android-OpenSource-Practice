@@ -18,7 +18,7 @@ class EventBustTestActivity : BaseVmVbActivity<BaseViewModel, ActivityModularBus
     }
 
     override fun createObserver() {
-        LiveDataBus.getChannel("key_test", String::class.java).observe(this) {
+        LiveDataBus.with("key_test", String::class.java)?.observe(this) {
             Log.d(TAG, "createObserver: $it")
         }
     }
@@ -28,7 +28,7 @@ class EventBustTestActivity : BaseVmVbActivity<BaseViewModel, ActivityModularBus
 
     override fun initView(savedInstanceState: Bundle?) {
         mViewBind.send.setOnClickListener {
-            LiveDataBus.getChannel("key_test").setValue("Hello RainyJiang")
+            LiveDataBus.with("key_test")?.setValue("Hello RainyJiang")
         }
 
     }
