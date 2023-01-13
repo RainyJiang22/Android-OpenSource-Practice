@@ -1,7 +1,9 @@
 package com.rainy.android_opensource_practice.modularbus
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import com.pengxr.modular.eventbus.generated.events.EventDefineOfLoginEvents
 import com.rainy.android_opensource_practice.databinding.ActivityModularBusBinding
 import com.rainy.modular.eventbus.LiveDataBus
 import me.hgj.jetpackmvvm.base.activity.BaseVmVbActivity
@@ -21,16 +23,24 @@ class EventBustTestActivity : BaseVmVbActivity<BaseViewModel, ActivityModularBus
         LiveDataBus.with("key_test", String::class.java)?.observe(this) {
             Log.d(TAG, "createObserver: $it")
         }
+//        lifecycleScope.launchWhenResumed {
+//            EventDefineOfLoginEvents.login()
+//                .observe(this@EventBustTestActivity) { value: UserInfo? ->
+//                    Log.d(TAG, "createObserver: $value")
+//                    toast("$value")
+//                }
+//        }
     }
 
     override fun dismissLoading() {
     }
 
     override fun initView(savedInstanceState: Bundle?) {
+        EventDefineOfLoginEvents.login().post(UserInfo("RainyJiang"))
         mViewBind.send.setOnClickListener {
-            LiveDataBus.with("key_test")?.setValue("Hello RainyJiang")
-        }
 
+            startActivity(Intent(this, SecondActivity::class.java))
+        }
     }
 
     override fun showLoading(message: String) {

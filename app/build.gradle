@@ -79,6 +79,10 @@ dependencies {
 
     implementation 'io.github.lucksiege:pictureselector:v3.10.7'
 
+
+    implementation 'io.github.pengxurui:modular-eventbus-api:1.0.5'
+    kapt 'io.github.pengxurui:modular-eventbus-compiler:1.0.5'
+
 }
 
 protobuf {

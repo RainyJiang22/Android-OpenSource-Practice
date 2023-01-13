@@ -64,6 +64,11 @@
         <activity
             android:name=".net.HttpTestActivity"
             android:exported="true" />
+
+        <activity
+            android:name=".modularbus.SecondActivity"
+            android:exported="true" />
+
     </application>
 
 </manifest>
