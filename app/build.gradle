@@ -50,6 +50,7 @@ dependencies {
     implementation project(":KtRetrofit")
     implementation project(":EasyBus")
     implementation project(":GlideKTX")
+    implementation project(":modularEventBus")
     implementation 'com.blankj:utilcodex:1.31.0'
     implementation 'com.github.hegaojian:JetpackMvvm:1.2.7'
 

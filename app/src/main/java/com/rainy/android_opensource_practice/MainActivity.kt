@@ -47,14 +47,14 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>() {
 
         }*/
 
-        imageLoader = GlideImageLoader(mViewBind.ivResult, mViewBind.progressbar)
+/*        imageLoader = GlideImageLoader(mViewBind.ivResult, mViewBind.progressbar)
 
         imageLoader?.load(
             "https://source.unsplash.com/random",
             RequestOptions()
                 .override(500, 500)
                 .diskCacheStrategy(DiskCacheStrategy.DATA)
-                .placeholder(mViewBind.ivResult.drawable))
+                .placeholder(mViewBind.ivResult.drawable))*/
 
     }
 }
