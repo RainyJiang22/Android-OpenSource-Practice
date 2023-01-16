@@ -35,9 +35,7 @@ object FlowEventBus {
 
     fun getFlow(key: String): MutableSharedFlow<Event> {
         return flowEvents[key] ?: MutableSharedFlow<Event>().also {
-            flow<Event> {
-                it.shareIn(MainScope(), started = SharingStarted.WhileSubscribed())
-            }
+            flowEvents[key] = it
         }
     }
 
