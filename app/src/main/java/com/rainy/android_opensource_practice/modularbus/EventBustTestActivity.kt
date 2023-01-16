@@ -3,7 +3,6 @@ package com.rainy.android_opensource_practice.modularbus
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import com.pengxr.modular.eventbus.generated.events.EventDefineOfLoginEvents
 import com.rainy.android_opensource_practice.databinding.ActivityModularBusBinding
 import com.rainy.modular.eventbus.LiveDataBus
 import com.rainy.modular.eventbus.SingleEvent

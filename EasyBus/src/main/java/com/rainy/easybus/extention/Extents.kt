@@ -71,13 +71,13 @@ inline fun <reified T> LifecycleOwner.observeEvent(
 }
 
 //Application范围的事件
-inline fun <reified T> postEvent(event: T, timeMillis: Long = 0L) {
+inline fun <reified T> globalPostEvent(event: T, timeMillis: Long = 0L) {
     AppViewModelProvider.getApplicationScopeViewModel(EasyBusCore::class.java)
         .postEvent(T::class.java.name, event!!, timeMillis)
 }
 
 @MainThread
-inline fun <reified T> observeEvent(
+inline fun <reified T> globalObserveEvent(
     coroutineScope: CoroutineScope,
     isSticky: Boolean = false,
     noinline onReceived: (T) -> Unit
