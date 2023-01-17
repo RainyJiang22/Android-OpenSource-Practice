@@ -1,12 +1,7 @@
 package com.rainy.android_opensource_practice.modularbus
 
 import android.os.Bundle
-import android.util.Log
-import androidx.lifecycle.lifecycleScope
-import com.pengxr.modular.eventbus.generated.events.EventDefineOfLoginEvents
 import com.rainy.android_opensource_practice.databinding.ActivitySecondBinding
-import com.rainy.android_opensource_practice.toast
-import com.rainy.modular.eventbus.SingleEvent
 import me.hgj.jetpackmvvm.base.activity.BaseVmVbActivity
 import me.hgj.jetpackmvvm.base.viewmodel.BaseViewModel
 

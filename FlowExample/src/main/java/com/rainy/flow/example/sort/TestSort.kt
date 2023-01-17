@@ -17,7 +17,7 @@ fun main() {
 
 //    Sort.insertSort(list)
 
-//    Sort.shellSort(list)
+    // Sort.shellSort(list)
 
 //    Sort.mergeUpSort(list)
 
@@ -27,9 +27,11 @@ fun main() {
 
 //    Sort.heapSort(list)
 
-    Sort.bucketSort(list)
+//    Sort.bucketSort(list)
 
+//    Sort.mergeDown(list)
+
+    Sort.heap(list)
 
     list.map { print("$it,") }
-
 }

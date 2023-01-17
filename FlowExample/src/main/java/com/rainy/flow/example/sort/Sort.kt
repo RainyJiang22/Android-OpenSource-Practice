@@ -94,21 +94,31 @@ object Sort {
     private fun merge(array: IntArray, start: Int, middle: Int, end: Int) {
 
         //辅助数组
-        val temp = intArrayOf(array.size)
+        val temp = array.copyOf()
 
         var i = start
         var j = middle + 1
+        var k = 0 //临时数组索引
 
-        for (k in start..end) {
-            if (i > middle) {
-                temp[k] = array[j++]
-            } else if (j > end) {
-                temp[k] = array[i++]
-            } else if (temp[i] <= temp[j]) {
-                temp[k] = array[i++]
+        while (i <= middle && j <= end) {
+            if (array[i] <= array[j]) {
+                temp[k++] = array[i++]
             } else {
-                temp[k] = array[j++]
+                temp[k++] = array[j++]
             }
+        }
+
+        while (i <= middle) {
+            temp[k++] = array[i++]
+        }
+
+        while (j <= end) {
+            temp[k++] = array[j++]
+        }
+
+        //将排序后的元素，全部整合到数组a中去
+        for (h in 0 until k) {
+            array[start + h] = temp[h]
         }
     }
 
@@ -124,21 +134,23 @@ object Sort {
      *     gap -- 子数组的长度
      */
     private fun mergeGroups(array: IntArray, len: Int, gap: Int) {
-        val twoLen = 2 * gap
 
         // 将"每2个相邻的子数组" 进行合并排序。
+        val twoLen = 2 * gap
 
         var index = 0
-        while (index + twoLen - 1 < len) {
-            merge(array, index, index + gap - 1, index + twoLen - 1)
-            index += twoLen
+        while (index + 2 * gap - 1 < len) {
+            merge(array, index, index + gap - 1, index + 2 * gap - 1)
+
+            // 若 index +gap-1 < len-1，则剩余一个子数组没有配对。
+            // 将该子数组合并到已排序的数组中。
+            if (index + gap - 1 < len - 1) {
+                merge(array, index, index + gap - 1, len - 1)
+            }
+
+            index += (2 * gap)
         }
 
-        // 若 index +gap-1 < len-1，则剩余一个子数组没有配对。
-        // 将该子数组合并到已排序的数组中。
-        if (index + gap - 1 < len - 1) {
-            merge(array, index, index + gap - 1, len - 1)
-        }
 
     }
 
@@ -147,7 +159,7 @@ object Sort {
         if (end <= start) {
             return
         }
-        val mid = start + (end - start) / 2
+        val mid = (end + start) / 2
 
         mergeUpSort(array, start, mid)
         mergeUpSort(array, mid + 1, end)
@@ -341,4 +353,23 @@ object Sort {
     }
 
 
+    //自底向上合并微型数组
+    fun mergeDown(arr: IntArray) {
+
+        var n = 1
+        while (n < arr.size) {
+            var index = 0
+            //合并相邻的两个数组
+            if (index + 2 * n - 1 < arr.size) {
+                merge(arr, index, index + n - 1, index + 2 * n - 1)
+                index += 2 * n
+            }
+
+            //只剩下一个数组，直接合并上去
+            if (index + n - 1 < arr.size - 1) {
+                merge(arr, index, index + n - 1, arr.size - 1)
+            }
+            n *= 2
+        }
+    }
 }
