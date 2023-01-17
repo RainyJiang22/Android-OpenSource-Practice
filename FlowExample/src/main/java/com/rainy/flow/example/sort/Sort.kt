@@ -324,32 +324,26 @@ object Sort {
      * 3.对每个不是空的桶进行排序
      * 4.拿出排好序的数据拼接起来
      */
-    fun bucketSort(arr: IntArray): IntArray {
-        val n = arr.size
-        if (n <= 0) return arr
+    fun bucketSort(a: IntArray?, max: Int) {
+        var buckets: IntArray?
+        if (a == null || max < 1) return
 
-        // 1) Create n empty buckets
-        val b = Array<ArrayList<Int>>(n) { ArrayList() }
+        // 创建一个容量为max的数组buckets，并且将buckets中的所有数据都初始化为0。
+        buckets = IntArray(max)
 
-        // 2) Put array elements in different buckets
-        for (i in 0 until n) {
-            val idx = arr[i].toInt() * n
-            b[idx].add(arr[i])
-        }
+        // 1. 计数
+        for (k in a.indices) buckets[a[k]]++
 
-        // 3) Sort individual buckets
-        for (i in 0 until n) {
-            b[i].sort()
-        }
-
-        // 4) Concatenate all buckets into arr[]
-        var index = 0
-        for (i in 0 until n) {
-            for (j in b[i].indices) {
-                arr[index++] = b[i][j]
+        // 2. 排序
+        var i = 0
+        var j = 0
+        while (i < max) {
+            while (buckets[i]-- > 0) {
+                a[j++] = i
             }
+            i++
         }
-        return arr
+        buckets = null
     }
 
 

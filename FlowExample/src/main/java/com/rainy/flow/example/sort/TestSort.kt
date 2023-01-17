@@ -31,7 +31,8 @@ fun main() {
 
 //    Sort.mergeDown(list)
 
-    Sort.heap(list)
+   // Sort.heap(list)
 
+    Sort.bucketSort(list,100)
     list.map { print("$it,") }
 }
