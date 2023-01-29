@@ -60,7 +60,7 @@ open class BusMutableLiveData<T> : MutableLiveData<T?>() {
         if (objectWrapper == null) {
             throw NullPointerException("Wrapper can not be bull!")
         }
-        val classObserverWrapper: Class<*> = objectWrapper.javaClass.superclass
+        val classObserverWrapper: Class<*> = objectWrapper.javaClass.superclass as Class<*>
         val fieldLastVersion = classObserverWrapper.getDeclaredField("mLastVersion")
         fieldLastVersion.isAccessible = true
         //get livedata's version
