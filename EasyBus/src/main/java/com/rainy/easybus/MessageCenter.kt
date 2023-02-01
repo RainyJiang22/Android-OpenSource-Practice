@@ -40,7 +40,7 @@ object MessageCenter {
 
     inline fun <reified T> onEvent(
         event: Class<T>,
-        crossinline dos: (T) -> Unit,
+        crossinline dos: (T & Any) -> Unit,
         owner: LifecycleOwner,
         env: SubscribeEnv
     ) {
