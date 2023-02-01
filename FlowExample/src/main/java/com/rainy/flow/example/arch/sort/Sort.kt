@@ -1,7 +1,4 @@
-package sortKotlin
-
-import kotlinx.coroutines.awaitAll
-import kotlin.math.sin
+package com.rainy.flow.example.arch.sort
 
 /**
  * @author Jacky
@@ -147,7 +144,6 @@ object Sort {
             if (index + gap - 1 < len - 1) {
                 merge(array, index, index + gap - 1, len - 1)
             }
-
             index += (2 * gap)
         }
 
