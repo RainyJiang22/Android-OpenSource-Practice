@@ -29,7 +29,6 @@ class OperateWindow : BaseOp() {
             .subscribe(getConsumer())
     }
 
-
     @SuppressLint("CheckResult")
     private fun getConsumer(): Consumer<Observable<Long>> {
         return Consumer { observable: Observable<Long> ->
