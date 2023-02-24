@@ -2,9 +2,7 @@ package com.rainy.flow.example.flowtest.rx.operator
 
 import com.rainy.flow.example.flowtest.rx.operator.base.BaseOp
 import io.reactivex.Observable
-import io.reactivex.ObservableSource
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.functions.Function
 import io.reactivex.schedulers.Schedulers
 
 /**
