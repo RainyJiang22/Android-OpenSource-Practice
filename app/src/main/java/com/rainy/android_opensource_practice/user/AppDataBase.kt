@@ -15,7 +15,6 @@ abstract class AppDatabase : RoomDatabase() {
 
     companion object {
 
-
         private var instance: AppDatabase? = null
 
         fun getInstance(context: Context): AppDatabase {
