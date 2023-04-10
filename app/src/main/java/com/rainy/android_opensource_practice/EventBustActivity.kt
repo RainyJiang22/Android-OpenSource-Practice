@@ -21,7 +21,6 @@ class EventBustActivity : BaseActivity<BaseViewModel, ActivityEventBusBinding>()
 
 
     override fun createObserver() {
-        super.createObserver()
         /*      globalObserveEvent<HelloBean>(lifecycleScope, false) {
                   toast("$it")
                   Log.d("EventBus", "createObserver:$it")
@@ -29,20 +28,23 @@ class EventBustActivity : BaseActivity<BaseViewModel, ActivityEventBusBinding>()
 
         FlowEventBus.observe<Event.show>(this, Lifecycle.State.STARTED) {
             Log.d("EventBus", "createObserver:$it")
-            mViewBind.testText.text = it.data.toString()
+            mViewBind?.testText?.text = it.data.toString()
         }
     }
 
     override fun initView(savedInstanceState: Bundle?) {
-        super.initView(savedInstanceState)
-        mViewBind.btnPostString.setOnClickListener {
+        mViewBind?.btnPostString?.setOnClickListener {
             FlowEventBus.post(event = Event.show(HelloBean("RainyJiang")))
 //            globalPostEvent(HelloBean("this is message1"))
         }
 
-        mViewBind.btnPostBean.setOnClickListener {
+        mViewBind?.btnPostBean?.setOnClickListener {
             startActivity<SecondActivity>()
         }
+    }
+
+    override fun onBundle(bundle: Bundle) {
+
     }
 
 }

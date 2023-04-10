@@ -69,6 +69,10 @@
             android:name=".modularbus.SecondActivity"
             android:exported="true" />
 
+        <activity
+            android:name=".datastore.DataStoreActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>

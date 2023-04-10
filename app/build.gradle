@@ -52,7 +52,6 @@ dependencies {
     implementation project(":GlideKTX")
     implementation project(":modularEventBus")
     implementation 'com.blankj:utilcodex:1.31.0'
-    implementation 'com.github.hegaojian:JetpackMvvm:1.2.7'
 
     implementation project(":FlowExample")
 
@@ -82,6 +81,8 @@ dependencies {
 
     implementation 'io.github.pengxurui:modular-eventbus-api:1.0.5'
     kapt 'io.github.pengxurui:modular-eventbus-compiler:1.0.5'
+
+    implementation 'com.github.hegaojian:JetpackMvvm:1.2.7'
 
 }
 

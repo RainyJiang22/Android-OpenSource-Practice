@@ -27,20 +27,20 @@ class DataStoreActivity : BaseActivity<BaseViewModel, ActivityDataStoreBinding>(
 
     override fun initView(savedInstanceState: Bundle?) {
 
-        mViewBind.btnSave.setOnClickListener {
+        mViewBind?.btnSave?.setOnClickListener {
             EasyDataStore.putData("name", "居家")
         }
 
-        mViewBind.btnRead.setOnClickListener {
+        mViewBind?.btnRead?.setOnClickListener {
             val data = EasyDataStore.getData("name", "办公")
-            mViewBind.tvResult.text = data
+            mViewBind?.tvResult?.text = data
         }
 
-        mViewBind.btnSave.setOnClickListener {
+        mViewBind?.btnSave?.setOnClickListener {
             EasyDataStore.clearData()
         }
 
-        mViewBind.btnProtoSave.setOnClickListener {
+        mViewBind?.btnProtoSave?.setOnClickListener {
             runBlocking {
                 studyDataStore.updateData {
                     it.toBuilder()
@@ -51,14 +51,18 @@ class DataStoreActivity : BaseActivity<BaseViewModel, ActivityDataStoreBinding>(
             }
         }
 
-        mViewBind.btnProtoRead.setOnClickListener {
+        mViewBind?.btnProtoRead?.setOnClickListener {
             runBlocking {
                 val person = studyDataStore.data.first()
-                mViewBind.tvResult.text = "name: ${person.name} , age: ${person.age}"
+                mViewBind?.tvResult?.text = "name: ${person.name} , age: ${person.age}"
             }
         }
     }
 
     override fun createObserver() {
+    }
+
+    override fun onBundle(bundle: Bundle) {
+
     }
 }

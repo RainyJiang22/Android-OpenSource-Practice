@@ -22,8 +22,8 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>() {
     private var imageLoader: GlideImageLoader? = null
 
     override fun createObserver() {
-        super.createObserver()
     }
+
 
     override fun initView(savedInstanceState: Bundle?) {
         /*this.postEvent(HelloBean("this is bean world"), isStick = false)
@@ -55,6 +55,10 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>() {
                 .override(500, 500)
                 .diskCacheStrategy(DiskCacheStrategy.DATA)
                 .placeholder(mViewBind.ivResult.drawable))*/
+
+    }
+
+    override fun onBundle(bundle: Bundle) {
 
     }
 }

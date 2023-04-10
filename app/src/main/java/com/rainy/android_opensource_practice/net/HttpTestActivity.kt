@@ -22,4 +22,8 @@ class HttpTestActivity : BaseActivity<BannerViewModel, ActivityUserBinding>() {
         }
 
     }
+
+    override fun onBundle(bundle: Bundle) {
+
+    }
 }

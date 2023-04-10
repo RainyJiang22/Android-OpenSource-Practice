@@ -73,34 +73,34 @@ class NotificationActivity:BaseActivity<BaseViewModel,ActivityNotificationBindin
     }
 
     private fun setClickListener() {
-        mViewBind.mbNormal.setOnClickListener {
+        mViewBind?.mbNormal?.setOnClickListener {
             createNotificationForNormal()
         }
 
-         mViewBind.mbHigh.setOnClickListener {
+         mViewBind?.mbHigh?.setOnClickListener {
             createNotificationForHigh()
         }
 
-         mViewBind.mbProgress.setOnClickListener {
+         mViewBind?.mbProgress?.setOnClickListener {
             createNotificationForProgress()
         }
 
-         mViewBind.mbUpdateProgress.setOnClickListener {
+         mViewBind?.mbUpdateProgress?.setOnClickListener {
             updateNotificationForProgress()
         }
 
-         mViewBind.mbBigText.setOnClickListener {
+         mViewBind?.mbBigText?.setOnClickListener {
             createNotificationForBigText()
         }
 
-         mViewBind.mbBigImage.setOnClickListener {
+         mViewBind?.mbBigImage?.setOnClickListener {
 
         }
 
-         mViewBind.mbCustom.setOnClickListener {
+         mViewBind?.mbCustom?.setOnClickListener {
         }
 
-         mViewBind.mbUpdateCustom.setOnClickListener {
+         mViewBind?.mbUpdateCustom?.setOnClickListener {
             updateNotificationForCustom()
         }
     }
@@ -283,5 +283,13 @@ class NotificationActivity:BaseActivity<BaseViewModel,ActivityNotificationBindin
         super.onDestroy()
         // 取消注册
         mReceiver?.let { unregisterReceiver(it) }
+    }
+
+    override fun onBundle(bundle: Bundle) {
+
+    }
+
+    override fun createObserver() {
+
     }
 }

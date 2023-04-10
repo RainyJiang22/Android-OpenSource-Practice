@@ -15,7 +15,7 @@ class NumberActivity : BaseActivity<NumberViewModel, ActivityFlowStateBinding>()
 
     override fun initView(savedInstanceState: Bundle?) {
 
-        mViewBind.apply {
+        mViewBind?.apply {
 
             btnAdd.setOnClickListener {
                 mViewModel.add()
@@ -31,8 +31,11 @@ class NumberActivity : BaseActivity<NumberViewModel, ActivityFlowStateBinding>()
         lifecycleScope.launchWhenCreated {
 
             mViewModel.number.collect {
-                mViewBind.textValue.text = it.toString()
+                mViewBind?.textValue?.text = it.toString()
             }
         }
+    }
+
+    override fun onBundle(bundle: Bundle) {
     }
 }

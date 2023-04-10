@@ -20,7 +20,7 @@ class UserActivity : BaseActivity<BaseViewModel, ActivityUserBinding>() {
 
 
     override fun initView(savedInstanceState: Bundle?) {
-        mViewBind.apply {
+        mViewBind?.apply {
             addUser.setOnClickListener {
                 userViewModel.insert(
                     etUserId.text.toString(),
@@ -32,7 +32,7 @@ class UserActivity : BaseActivity<BaseViewModel, ActivityUserBinding>() {
 
 
         val adapter = UserAdapter()
-        mViewBind.recycler.apply {
+        mViewBind?.recycler?.apply {
             this.layoutManager = LinearLayoutManager(this@UserActivity)
             this.adapter = adapter
         }
@@ -43,5 +43,12 @@ class UserActivity : BaseActivity<BaseViewModel, ActivityUserBinding>() {
         }
 
 
+    }
+
+    override fun onBundle(bundle: Bundle) {
+
+    }
+
+    override fun createObserver() {
     }
 }

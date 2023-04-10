@@ -58,7 +58,7 @@ class TestActivity : BaseActivity<BaseViewModel, ActivityTestBinding>() {
         createReceiver()
 
 
-        mViewBind.btnAlbum.setOnClickListener {
+        mViewBind?.btnAlbum?.setOnClickListener {
 
             PictureSelector.create(this)
                 .openSystemGallery(SelectMimeType.ofAll())
@@ -75,7 +75,7 @@ class TestActivity : BaseActivity<BaseViewModel, ActivityTestBinding>() {
                 })
         }
 
-        mViewBind.btnNotification.setOnClickListener {
+        mViewBind?.btnNotification?.setOnClickListener {
             createNotificationForMessage()
         }
     }
@@ -134,6 +134,14 @@ class TestActivity : BaseActivity<BaseViewModel, ActivityTestBinding>() {
                 Toast.makeText(context, "完成", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    override fun onBundle(bundle: Bundle) {
+
+    }
+
+    override fun createObserver() {
+
     }
 
 }

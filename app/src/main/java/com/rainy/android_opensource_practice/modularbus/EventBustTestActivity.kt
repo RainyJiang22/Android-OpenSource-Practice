@@ -3,6 +3,7 @@ package com.rainy.android_opensource_practice.modularbus
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import com.rainy.android_opensource_practice.BaseActivity
 import com.rainy.android_opensource_practice.databinding.ActivityModularBusBinding
 import com.rainy.modular.eventbus.LiveDataBus
 import com.rainy.modular.eventbus.SingleEvent
@@ -13,7 +14,7 @@ import me.hgj.jetpackmvvm.base.viewmodel.BaseViewModel
  * @author jiangshiyu
  * @date 2023/1/13
  */
-class EventBustTestActivity : BaseVmVbActivity<BaseViewModel, ActivityModularBusBinding>() {
+class EventBustTestActivity : BaseActivity<BaseViewModel, ActivityModularBusBinding>() {
 
     companion object {
         const val TAG = "EventBus"
@@ -36,13 +37,17 @@ class EventBustTestActivity : BaseVmVbActivity<BaseViewModel, ActivityModularBus
     }
 
     override fun initView(savedInstanceState: Bundle?) {
-        mViewBind.send.setOnClickListener {
+        mViewBind?.send?.setOnClickListener {
             SingleEvent.post(UserInfo("RainyJiang"))
             startActivity(Intent(this, SecondActivity::class.java))
         }
     }
 
     override fun showLoading(message: String) {
+
+    }
+
+    override fun onBundle(bundle: Bundle) {
 
     }
 }
