@@ -1,37 +1,50 @@
-package com.rainy.android_opensource_practice.flowtest
+package com.rainy.flow.example.flowtest
 
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
+import androidx.core.location.LocationManagerCompat
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Completable
-import io.reactivex.Emitter
 import io.reactivex.Flowable
 import io.reactivex.FlowableEmitter
 import io.reactivex.Observable
-import io.reactivex.Scheduler
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.buffer
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.conflate
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flatMapMerge
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.reduce
+import kotlinx.coroutines.flow.transform
+import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withTimeoutOrNull
+import okhttp3.Dispatcher
 import kotlin.system.measureTimeMillis
 
 /**
@@ -153,18 +166,18 @@ fun createEmitter(): Flow<Int> =
             print("Emit $it (${currentTime() - start}ms) ")
         }
 
-fun main() {
-    runBlocking {
-        val time = measureTimeMillis {
-            createEmitter().collectLatest {
-                print("\nCollect $it starts ${start - currentTime()}ms")
-                delay(3000L)
-                println("   Collect $it ends ${currentTime() - start}ms")
-            }
-        }
-        print("\nCollected in $time ms")
-    }
-}
+//fun main() {
+//    runBlocking {
+//        val time = measureTimeMillis {
+//            createEmitter().collectLatest {
+//                print("\nCollect $it starts ${start - currentTime()}ms")
+//                delay(3000L)
+//                println("   Collect $it ends ${currentTime() - start}ms")
+//            }
+//        }
+//        print("\nCollected in $time ms")
+//    }
+//}
 
 /*fun getUsernames(): Flowable<String> {
     return Flowable<String>()
@@ -326,4 +339,370 @@ fun FlowBackpressureBufferTest() {
                 println("Got value: $value")
             }
     }
+}
+
+fun getLocationFlow(): Flow<Location> {
+    return callbackFlow {
+
+        val locationListener = LocationListener {
+
+
+        }
+//        LocationManagerCompat.registerGnssStatusCallback()
+
+//        val locationListener = LocationListener{
+//            trySend(it)
+//        }
+//
+//        LocationManager.registerForLocation(locationListener)
+//
+//        awaitClose {
+//            LocationManager.unregisterForLocation(locationListener)
+//        }
+    }
+}
+
+//fun simple() = flow {
+//    (1..3).forEach {
+//        delay(100)
+//        emit(it)
+//    }
+//}
+//
+//fun main() = runBlocking {
+//    launch {
+//        for (k in 1..3) {
+//            println("From main $k")
+//            delay(100)
+//        }
+//    }
+//
+//    simple().collect { value -> println("From flow $value") }
+//}
+
+//val sequence = (1..100000000).asSequence()
+//val startTime = System.currentTimeMillis()
+//fun main() = runBlocking {
+//    val result = sequence
+//        .map { it * 3 }
+//        .filter { it % 2 == 0 }
+//    println("Start")
+//    result.reduce { ac, it ->
+//        ac + it
+//    }.run { println(this) }
+//    println("Done in ${System.currentTimeMillis() - startTime}ms")
+//}
+
+
+//val flows = (1..100000000).asFlow()
+//val sequence = (1..10000000).asSequence()
+//val startTime = System.currentTimeMillis()
+//fun main() = runBlocking {
+//
+//    for (i in (1..3).asSequence()) {
+//        println(i)
+//    }
+//
+//    (1..3).asSequence().asFlow()
+//
+//    val result = flows.map { it * 3 }
+//        .filter { it % 2 == 0 }
+//    println("Start")
+//    result.reduce { ac, value ->
+//        ac + value
+//    }.run { println(this) }
+//    println("Done in ${System.currentTimeMillis() - startTime}ms")
+//}
+
+//fun main() {
+//
+//    //在协程范围中
+//    runBlocking {
+//        (1..3).asFlow().collect()
+//    }
+//
+//    //在挂起函数中
+//    suspend fun main() {
+//        (1..3).asFlow().collect()
+//    }
+//
+//    //使用launchIn设置协程范围
+//    (1..3).asFlow().launchIn(CoroutineScope(Dispatchers.IO))
+//}
+
+
+//fun simple() = sequence {
+//    (1..3).forEach {
+//        Thread.sleep(100)
+//        yield(it)
+//    }
+//}
+//
+//fun main() = runBlocking {
+//    //250ms后超时
+//    withTimeoutOrNull(250) {
+//        simple().forEach { value -> println(value) }
+//    }
+//    withTimeoutOrNull(250) {
+//        simple().forEach { value ->  }
+//    }
+//    println("Done")
+//}
+
+
+//fun simple() = flow {
+//    (1..3).forEach {
+//        delay(100)
+//        emit(it)
+//    }
+//}
+//
+//fun main() = runBlocking {
+//    //250ms后超时
+//    withTimeoutOrNull(250) {
+//        simple().collect { value -> println(value) }
+//    }
+//    println("Done")
+//}
+//
+//
+//fun main() = runBlocking {
+//    (2..6 step 2).asFlow().transform {
+//        emit(it - 1)
+//        emit(it)
+//    }.collect { println(it) }
+//
+//    (2..5 step 2).asSequence().forEach {
+//        println(it)
+//    }
+//}
+
+//fun main() {
+//    run()
+//    //确保其他线程完成
+//    Thread.sleep(100)
+//}
+//
+//fun run() {
+//    CoroutineScope(Dispatchers.IO).launch {
+//        (1..3).asSequence()
+//            .forEach {
+//                println("$it ${Thread.currentThread()}")
+//            }
+//    }
+//}
+
+//fun main() {
+//    run()
+//    // 确保其他线程完成
+//    Thread.sleep(100)
+//}
+//
+//fun run() {
+//    (1..3).asFlow()
+//        .onEach {
+//            println("$it ${Thread.currentThread()}")
+//        }.launchIn(CoroutineScope(Dispatchers.IO))
+//}
+
+//fun main() = runBlocking {
+//    flow {
+//        (1..3).forEach {
+//            println("Fire $it ${Thread.currentThread()}")
+//            emit(it)
+//        }
+//    }
+//        .flowOn(Dispatchers.IO)
+//        .transform {
+//            println("Operate $it ${Thread.currentThread()}")
+//            emit(it)
+//        }
+//        .flowOn(Dispatchers.Default)
+//        .collect {
+//            println("Collect $it ${Thread.currentThread()}")
+//        }
+//}
+
+//fun simple() = sequence {
+//    (1..3).forEach {
+//        Thread.sleep(100)
+//        yield(it)
+//    }
+//}
+//
+//fun main() = runBlocking {
+//    val time = measureTimeMillis {
+//        simple().forEach {
+//            delay(300)
+//        }
+//    }
+//    println("Collected in $time ms")
+//}
+
+
+//fun simple(): Flow<Int> = flow {
+//    for (i in 1..3) {
+//        delay(100)
+//        emit(i)
+//    }
+//}
+//
+//fun main() = runBlocking {
+//    val time = measureTimeMillis {
+//        simple().buffer().collect {
+//            delay(300)
+//        }
+//    }
+//    println("Collected in $time ms")
+//}
+
+//fun simple(): Sequence<Int> = sequence {
+//    for (i in 1..3) {
+//        println("Generating $i")
+//        yield(i)
+//    }
+//}
+//
+//fun main() = runBlocking {
+//    try {
+//        simple().forEach { value ->
+//            check(value <= 1) { "Crash on $value" }
+//            println("Got $value")
+//        }
+//    } catch (e: Throwable) {
+//        println("Caught $e")
+//    } finally {
+//        println("Done")
+//    }
+//}
+
+//fun simple(): Flow<Int> = flow {
+//    for (i in 1..3) { delay(100); emit(i) }
+//}
+//
+//fun main() = runBlocking {
+//    val time = measureTimeMillis {
+//        simple().collectLatest {
+//            println("get $it")
+//            delay(300)
+//            println("done $it")
+//        }
+//    }
+//    println("Collected in $time ms")
+//}
+
+
+//使用这个zip运算符
+fun firstSeq() = sequence {
+    (1..3).forEach {
+        Thread.sleep(100)
+        yield(it)
+    }
+}
+
+fun secondSeq() = sequence {
+    (4..6).forEach {
+        Thread.sleep(300)
+        yield(it)
+    }
+}
+
+fun firstFlow() = flow {
+    (1..3).forEach {
+        delay(100)
+        emit(it)
+    }
+}
+
+fun secondFlow() = flow {
+    (4..6).forEach {
+        delay(300)
+        emit(it)
+    }
+    (4..19).forEach {
+        delay(3000)
+        emit(it)
+    }
+}
+
+//fun main() = runBlocking {
+//    val time = measureTimeMillis {
+//        firstFlow().zip(secondFlow()) { first, second ->
+//            Pair(first, second)
+//        }.collect {
+//            println(it)
+//        }
+//    }
+//    println("Collected in $time ms")
+//}
+
+//fun main() = runBlocking {
+//    val time = measureTimeMillis {
+//        firstFlow().combine(secondFlow()) { first, second ->
+//            Pair(first, second)
+//        }.collect { println(it) }
+//    }
+//    println("Collected in $time ms")
+//}
+
+
+//fun main() = runBlocking {
+//    val time = measureTimeMillis {
+//        firstSeq().zip(secondSeq()).forEach {
+//            println(it)
+//        }
+//    }
+//    println("Collected in $time ms")
+//}
+
+
+//fun requestSequence(i: Int): Sequence<String> = sequence {
+//    yield("$i: First")
+//    Thread.sleep(300)
+//    yield("$i: Second")
+//}
+//
+//fun main() = runBlocking {
+//    val startTime = System.currentTimeMillis()
+//    (1..3).asSequence().onEach {
+//        Thread.sleep(100)
+//    }.flatMap {
+//        requestSequence(it)
+//    }.forEach {
+//        println("$it 从开始耗时 ${System.currentTimeMillis() - startTime} ms")
+//    }
+//}
+
+
+
+
+
+//@OptIn(FlowPreview::class)
+//fun main() = runBlocking {
+//    val startTime = System.currentTimeMillis()
+//    (1..3).asFlow().onEach { delay(100) }
+//        .flatMapMerge {
+//            otherFlow(it)
+//        }
+//        .collect { value ->
+//            println("$value 从开始耗时 ${System.currentTimeMillis() - startTime} ms ")
+//        }
+//}
+
+
+fun otherFlow(i: Int): Flow<String> = flow {
+    emit("$i:First")
+    delay(300)
+    emit("$i:Second")
+}
+
+
+@OptIn(ExperimentalCoroutinesApi::class)
+fun main() = runBlocking {
+    val startTime = System.currentTimeMillis()
+    (1..3).asFlow().onEach { delay(100) }
+        .flatMapLatest { otherFlow(it) }
+        .collect { value ->
+            println("$value 从开始耗时 ${System.currentTimeMillis() - startTime} ms ")
+        }
 }

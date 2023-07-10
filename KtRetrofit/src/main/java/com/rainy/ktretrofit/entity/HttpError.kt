@@ -25,11 +25,18 @@ internal fun handlingApiExceptions(code: Int?, errorMsg: String?) = when (code) 
 internal fun handlingExceptions(e: Throwable) = when (e) {
     is HttpException -> {
     }
+
     is CancellationException -> {
     }
+
     is SocketTimeoutException -> {
     }
+
     is JsonParseException -> {
+    }
+
+    is NullPointerException -> {
+
     }
     else -> {
     }
